@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Rust: Clippy",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "clippy",
+                "--all-targets"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true,
+            },
+            "problemMatcher": []
+        }
+    ]
+}
