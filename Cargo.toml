@@ -8,3 +8,6 @@ authors = ["Tukan van der Borgh <tukan@orangebandits.com>"]
 anyhow = "1.0.99" # error handling
 bytes = "1.7.0" # for buffer management
 thiserror = "2.0.17" # error handling
+
+[dev-dependencies]
+reqwest = { version = "0.12.26", features = ["blocking"] }

@@ -1,18 +1,33 @@
 use std::net::TcpListener;
 
-const LISTENER_URL: &str = "127.0.0.1:42069";
+use anyhow::{Context, Result};
 
-fn main() {
-    let listener = TcpListener::bind(LISTENER_URL).expect("error: failed to create TcpListener instance");
+const LISTENER_URL: &str = "127.0.0.1:0";
+
+fn main() -> Result<()> {
+    let listener =
+        TcpListener::bind(LISTENER_URL).context("failed to create TcpListener instance")?;
+    println!(
+        "info: server started at http://{}",
+        listener
+            .local_addr()
+            .context("could not retrieve address for TcpListener instance")?
+    );
 
     for stream in listener.incoming() {
-        match stream {
-            Ok(_stream) => {
-                println!("info: accepted new connection");
-            }
+        let stream = match stream {
+            Ok(stream) => stream,
             Err(error) => {
-                println!("error: {}", error);
+                eprintln!("error: {}", error);
+                continue;
             }
-        }
+        };
+
+        println!("info: accepted new connection");
+        if let Err(error) = http_rs::handle_connection(stream) {
+            eprintln!("error: failed to handle connection: {}", error)
+        };
     }
+
+    Ok(())
 }
