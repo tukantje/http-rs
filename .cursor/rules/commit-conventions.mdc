@@ -1,0 +1,177 @@
+---
+alwaysApply: true
+---
+
+# Conventional Commits
+
+Conventional commits must follow the format: `<type>[optional scope]: <description>`
+
+## Valid Types
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `build`: Changes that affect the build system or external dependencies
+- `ci`: Changes to our CI configuration files and scripts
+- `chore`: Other changes that don't modify src or test files
+- `revert`: Reverts a previous commit
+
+## Format Rules
+- Type is required and must be lowercase
+- Scope is optional and should be in parentheses: `(scope)`
+- Description is required and should be concise
+- Use imperative mood for description (e.g., "add", "fix", "update")
+- Breaking changes should be indicated by adding `!` after type/scope or including "BREAKING CHANGE:" in the footer
+
+## Examples
+```
+feat: add user authentication
+fix(api): resolve null pointer exception
+docs(readme): update installation instructions
+feat(auth)!: implement OAuth2 login
+```
+
+## Breaking Changes
+For breaking changes, use one of these formats:
+```
+feat!: implement new API structure
+feat(auth)!: change authentication flow
+```
+Or include in commit body:
+```
+feat: implement new API structure
+
+BREAKING CHANGE: The API endpoints have been completely redesigned
+```
+
+## Commit Body
+The commit body is optional and should provide additional context about the changes made. Use the body to explain:
+
+- **What** the change does and **why** it was necessary
+- Any **trade-offs** or **limitations** of the implementation
+- **Migration instructions** for breaking changes
+- **Testing considerations** or **edge cases** addressed
+
+Body lines should be wrapped at 72 characters and separated from the subject by a blank line.
+
+### Body Examples
+```
+feat: add support for custom HTTP headers
+
+Add support for custom headers in HTTP requests and responses.
+Headers can now be specified using the new `headers` parameter
+in both request and response builders.
+
+This enables more flexible API interactions and better control
+over HTTP communication.
+```
+
+```
+fix: resolve memory leak in connection pooling
+
+Fix memory leak that occurred when connections were not properly
+closed under high concurrency scenarios.
+
+The issue was caused by weak references not being cleared
+when the connection pool reached its maximum capacity.
+```
+
+## Footer
+The footer is optional and contains metadata about the commit. Common footer entries include:
+
+- **Breaking change notes**: `BREAKING CHANGE: description`
+- **Issue references**: `Closes #123`, `Fixes #456`, `Resolves #789`
+- **Co-authors**: `Co-authored-by: Name <email@example.com>`
+- **Reviewed-by**: `Reviewed-by: Name <email@example.com>`
+- **Signed-off-by**: `Signed-off-by: Name <email@example.com>` (for legal purposes)
+- **Refs**: `Refs: #123, #456` (for related issues)
+
+Footer entries should be separated from the body by a blank line and formatted as `Token: description`.
+
+### Footer Examples
+```
+Closes #42
+```
+
+```
+BREAKING CHANGE: The `timeout` parameter now expects milliseconds instead of seconds
+
+Migration: Update all timeout values by multiplying by 1000
+```
+
+```
+Co-authored-by: Jane Doe <jane@example.com>
+Reviewed-by: John Smith <john@example.com>
+```
+
+## Complete Commit Message Examples
+
+### Simple Feature Commit
+```
+feat: add dark mode toggle
+
+Add a toggle button in the header to switch between light and dark themes.
+The preference is stored in localStorage for persistence across sessions.
+```
+
+### Feature with Body and Footer
+```
+feat: implement user authentication system
+
+Add comprehensive authentication system with login, logout, and session management.
+Includes JWT token handling, password hashing, and secure cookie storage.
+
+The implementation uses bcrypt for password hashing with 12 salt rounds
+and includes rate limiting to prevent brute force attacks.
+
+BREAKING CHANGE: The `/api/user` endpoint now requires authentication
+
+To migrate: Update client code to include Authorization header with JWT token
+Closes #123
+```
+
+### Fix with Multiple Footer Entries
+```
+fix: resolve race condition in database transactions
+
+Fix race condition that could occur during concurrent database writes
+by implementing proper locking mechanisms.
+
+The issue manifested as occasional data corruption when multiple
+processes updated the same records simultaneously.
+
+Co-authored-by: Alice Johnson <alice@company.com>
+Reviewed-by: Bob Wilson <bob@company.com>
+Fixes #456
+Refs: #789, #101
+```
+
+### Breaking Change with Migration Guide
+```
+feat!: migrate to new configuration format
+
+Replace JSON configuration files with YAML format for better readability
+and support for comments.
+
+YAML provides clearer syntax and allows inline documentation,
+making configuration files more maintainable.
+
+BREAKING CHANGE: Configuration files must be converted from JSON to YAML
+
+Migration steps:
+1. Rename config.json to config.yaml
+2. Convert JSON syntax to YAML syntax
+3. Update any scripts that read the configuration file
+
+Example migration:
+JSON: {"database": {"host": "localhost", "port": 5432}}
+YAML: database:
+        host: localhost
+        port: 5432
+
+Closes #234
+Co-authored-by: Carol Davis <carol@company.com>
+```
