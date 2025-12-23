@@ -1,0 +1,10 @@
+[package]
+name = "http-rs"
+version = "0.1.0"
+edition = "2024"
+authors = ["Tukan van der Borgh <tukan@orangebandits.com>"]
+
+[dependencies]
+anyhow = "1.0.99" # error handling
+bytes = "1.7.0" # for buffer management
+thiserror = "2.0.17" # error handling
